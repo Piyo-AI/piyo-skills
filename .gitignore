@@ -1,0 +1,8 @@
+# Machine-specific Claude Code notes
+CLAUDE.local.md
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
