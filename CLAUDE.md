@@ -1,15 +1,25 @@
 # piyo-skills (skill catalog repo)
 
-The public catalog of skills for [Piyo AI](https://github.com/Piyo-AI/PiyoAI). **Status: scaffold.** `index.json`
-is empty (`{"schema": 1, "skills": []}`) and `skills/` only holds `.gitkeep`. Submission rules, validation CI and
+The public catalog of skills for [Piyo AI](https://github.com/Piyo-AI/PiyoAI). **Status: early.** `skills/` holds one sample
+skill, `daily-journal`, for testing install; `index.json` is generated from it. Submission rules, validation CI and
 signing are Phase 5 work (see `../docs/phase-5-public-release.md`).
 
-This repo contains data and skill packages only; there is no application code and no build step.
+This repo contains data and skill packages only, plus one script, `scripts/build_index.py`, that generates `index.json`.
+After changing anything under `skills/`, run it (and commit the result); CI will run it with `--check`:
+
+```bash
+uv run --project ../PiyoAI/core python scripts/build_index.py          # rewrite index.json
+uv run --project ../PiyoAI/core python scripts/build_index.py --check  # fail if stale
+```
+
+The script imports the skill format and the package hash from the app's core, so the format is not copied here.
+It refuses a skill with no `license` or no `SETUP.md`. The index format is in `../PiyoAI/PLAN.md` section 5.
 
 ## Layout
 
 ```
-index.json     catalog index the Piyo app reads
+index.json     catalog index the Piyo app reads (generated)
+scripts/       build_index.py
 skills/        one folder per skill package
 LICENSE        MIT
 ```

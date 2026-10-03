@@ -1,4 +1,24 @@
 {
   "schema": 1,
-  "skills": []
+  "skills": [
+    {
+      "name": "daily-journal",
+      "version": "1.0.0",
+      "description": "Write a short dated journal entry from what the user tells you and save it as a note in an approved folder. Use when the user wants to journal, log their day or jot down a note for today.",
+      "author": "Piyo AI",
+      "license": "MIT",
+      "path": "skills/daily-journal",
+      "sha256": "a3224251bcc5a8a7f27b29c364d21b68655761e40aecd60449a5a3ada1abc9a5",
+      "files": 2,
+      "size": 2011,
+      "permissions": [
+        "tool:files.list",
+        "tool:files.read",
+        "tool:files.write"
+      ],
+      "integrations": [],
+      "secrets": [],
+      "model": {}
+    }
+  ]
 }
