@@ -19,6 +19,25 @@
       "integrations": [],
       "secrets": [],
       "model": {}
+    },
+    {
+      "name": "unit-converter",
+      "version": "1.0.0",
+      "description": "Convert a number between units of length, mass, volume or temperature exactly, using a script instead of mental arithmetic. Use when the user asks to convert units, such as miles to kilometres, pounds to kilograms or Fahrenheit to Celsius.",
+      "author": "Piyo AI",
+      "license": "MIT",
+      "path": "skills/unit-converter",
+      "sha256": "64fae3d8bde7806b024c665a9118dcabf8bbc9e7c77da3689192402125d60e53",
+      "files": 3,
+      "size": 4381,
+      "permissions": [
+        "runtime:python",
+        "script:convert.py",
+        "tool:skill.run_script"
+      ],
+      "integrations": [],
+      "secrets": [],
+      "model": {}
     }
   ]
 }
