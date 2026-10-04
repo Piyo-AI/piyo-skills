@@ -6,3 +6,5 @@ CLAUDE.local.md
 Thumbs.db
 .vscode/
 .idea/
+
+__pycache__
