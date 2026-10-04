@@ -32,6 +32,13 @@ jobs:
       - name: Check every package and that index.json is current
         working-directory: piyo-skills
         run: uv run --project ../PiyoAI/core python scripts/build_index.py --check
+      # The index is signed by the maintainer on their own machine after a merge (scripts/sign_index.py), so a
+      # pull request cannot carry a valid signature. On main it must verify: red here means "sign and push", and
+      # until then installed apps refuse the catalog.
+      - name: Check the index signature
+        if: github.event_name == 'push'
+        working-directory: piyo-skills
+        run: uv run --project ../PiyoAI/core python scripts/sign_index.py verify
       # Badges, categories, revocations and external sources are maintainers' decisions. This does not
       # block the pull request; it makes the change impossible to miss in review.
       - name: Flag curation changes

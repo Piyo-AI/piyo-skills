@@ -77,6 +77,30 @@ skills start as Community in the category `other` unless a maintainer decides ot
 If a published skill turns out to be unsafe or broken, a maintainer can revoke a version. The app then refuses to
 install it. (Telling users who already have it is still to be built.)
 
+## For maintainers: merging and signing
+
+The app only accepts a catalog whose `index.json` is signed, so a merged change is not live until it is signed.
+
+1. Review the pull request (the automatic check has already run). Check that `curation.json` is untouched unless
+   you meant to change it.
+2. Merge it, then update your checkout: `git pull`.
+3. Make sure the index is current and sign it, on your own machine:
+
+   ```bash
+   uv run --project ../PiyoAI/core python scripts/build_index.py
+   uv run --project ../PiyoAI/core python scripts/sign_index.py sign
+   ```
+
+4. Commit `index.json.sig` (and `index.json` if it changed) and push to `main`. The `Validate submissions`
+   workflow checks the signature on every push to `main`; a red run means the catalog is unsigned or stale.
+
+Until step 4 is pushed, installed apps show "The catalog's signature did not verify" instead of the catalog. To
+revoke a version, edit `curation.json`, then do steps 3 and 4.
+
+The signing key is made once with `sign_index.py keygen` and lives in your OS keychain, never in this repository.
+Back it up with `sign_index.py export-key FILE` and keep that file offline. Losing the key means shipping a new
+app with a new key before the catalog can be signed again; leaking it means the same, so treat it like a password.
+
 ## Reporting a problem with a skill
 
 Open an issue naming the skill and version. If it is a security problem, say so in the title and leave the details

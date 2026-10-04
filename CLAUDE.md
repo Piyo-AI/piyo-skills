@@ -53,7 +53,7 @@ Rules a catalog skill must meet (CI enforces them through the app's `core/piyo/s
 
 - The index entry schema (currently 2) is defined in `PiyoAI/PLAN.md` section 5. Change it there first, then in
   `build_index.py` and the app's `core/piyo/skills/catalog.py`. Badges, categories, revocations and external
-  sources live in `curation.json`, never in a skill's own files; only maintainers edit it. An external skill
+  sources live in `curation.json`, never in a skill's own files; only maintainers edit it. **`index.json.sig` is the maintainer's Ed25519 signature over `index.json`** (`scripts/sign_index.py`, key in the OS keychain, scheme in `core/piyo/skills/signing.py`); every change to the index needs `build_index.py` and then `sign_index.py sign`, and the app refuses an unsigned or stale catalog. Never try to produce a signature in CI or print, log or commit the private key. An external skill
   needs `source` (GitHub URL, full commit hash, optional `subpath`) and the build fetches it, so `--check` needs
   network and `git` when one is listed.
 - `.github/CODEOWNERS` makes @sunaram the reviewer of everything, and of `curation.json`, `index.json`, `scripts/` and `.github/` in particular; `CONTRIBUTING.md` is the guide for authors, so keep it in step with `validate.py` when rules change. LF line endings (`.gitattributes`). MIT licence.
