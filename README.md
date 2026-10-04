@@ -15,6 +15,7 @@ plus optional Python or JS/TS scripts. See the skill system section of the Piyo 
 index.json     # catalog index consumed by the Piyo app (generated)
 curation.json  # badges, categories, revocations: maintainers only
 skills/        # skill packages
+templates/     # starter skills (instructions only, Python, TypeScript); checked by CI, not listed
 LICENSE        # MIT
 ```
 

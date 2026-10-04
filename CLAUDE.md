@@ -22,6 +22,8 @@ index.json     catalog index the Piyo app reads (generated)
 curation.json  maintainer-owned: badge, category, revoked versions and external (pinned Git) sources per skill
 scripts/       build_index.py
 skills/        one folder per skill package
+templates/     starter skills (instructions only, Python, TypeScript); not in the index, but `build_index.py` validates
+               them with the same rules, so a template that stops passing fails CI
 LICENSE        MIT
 ```
 

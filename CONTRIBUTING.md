@@ -16,8 +16,9 @@ skills/<skill-name>/
   assets/       optional: text files and png/jpg/webp/gif images
 ```
 
-The folder name must equal `name` in the frontmatter (lowercase letters, digits, single dashes). Look at
-`skills/daily-journal` (instructions only) and `skills/unit-converter` (with a Python script) for working examples.
+The folder name must equal `name` in the frontmatter (lowercase letters, digits, single dashes). Start from a template in [`templates/`](templates/README.md) (instructions only, Python, TypeScript) and read the
+[skill authoring guide](https://github.com/Piyo-AI/PiyoAI/blob/main/docs/skill-authoring.md). `skills/daily-journal` (instructions only) and
+`skills/unit-converter` (with a Python script) are working examples.
 
 ## Submitting
 

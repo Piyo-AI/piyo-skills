@@ -145,6 +145,18 @@ def build(root: Path) -> tuple[dict, dict[str, str], list[str]]:
     return {"schema": SCHEMA, "skills": entries}, errors, warnings
 
 
+def check_templates(root: Path) -> dict[str, str]:
+    """The starter skills in templates/ must pass the same rules as a submission, so copying one always works."""
+    problems: dict[str, str] = {}
+    for folder in sorted(p for p in (root / "templates").glob("*") if p.is_dir()):
+        skill, report = validate_package(folder)
+        if skill is not None and skill.manifest.name != folder.name:
+            report.errors.append(f"SKILL.md: name {skill.manifest.name!r} must equal the folder name")
+        if report.errors:
+            problems[f"templates/{folder.name}"] = "\n  ".join(report.errors)
+    return problems
+
+
 def render(index: dict) -> str:
     return json.dumps(index, indent=2, ensure_ascii=False) + "\n"
 
@@ -155,6 +167,7 @@ def main() -> int:
     args = parser.parse_args()
 
     index, errors, warnings = build(ROOT)
+    errors.update(check_templates(ROOT))
     github = os.environ.get("GITHUB_ACTIONS") == "true"  # shows the lines as annotations on the pull request
     for warning in warnings:
         print(f"::warning::{warning}" if github else f"warning: {warning}", file=sys.stderr)
