@@ -1,0 +1,8 @@
+# Every change is reviewed by a maintainer before it is merged.
+*                 @sunaram
+
+# These decide what users see and what the validator allows. Never accept them from a skill author.
+/curation.json    @sunaram
+/index.json       @sunaram
+/scripts/         @sunaram
+/.github/         @sunaram

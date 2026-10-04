@@ -1,0 +1,44 @@
+name: Validate submissions
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate skills and index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: piyo-skills
+      # The validator is the app's own skill loader and rule set, so the catalog never keeps a second copy.
+      # The app repo is public, so this needs no token and works for pull requests from forks too.
+      - uses: actions/checkout@v4
+        with:
+          repository: Piyo-AI/PiyoAI
+          path: PiyoAI
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - name: Check every package and that index.json is current
+        working-directory: piyo-skills
+        run: uv run --project ../PiyoAI/core python scripts/build_index.py --check
+      # Badges, categories, revocations and external sources are maintainers' decisions. This does not
+      # block the pull request; it makes the change impossible to miss in review.
+      - name: Flag curation changes
+        if: github.event_name == 'pull_request'
+        working-directory: piyo-skills
+        run: |
+          git fetch --depth=1 origin "${{ github.base_ref }}"
+          if ! git diff --quiet "origin/${{ github.base_ref }}" -- curation.json; then
+            echo "::warning file=curation.json::This pull request changes curation.json (badges, categories, revocations, external sources). A maintainer must review it."
+          fi

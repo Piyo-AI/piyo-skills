@@ -13,12 +13,13 @@ uv run --project ../PiyoAI/core python scripts/build_index.py --check  # fail if
 ```
 
 The script imports the skill format and the package hash from the app's core, so the format is not copied here.
-It refuses a skill with no `license` or no `SETUP.md`. The index format is in `../PiyoAI/PLAN.md` section 5.
+It refuses a package that fails `validate_package` (licence, `SETUP.md`, tools, layout, script checks, secrets; the rules and their reasons are in that module), and prints reviewer warnings. CI is `.github/workflows/validate.yml`; it checks out the app repo next to this one. The index format is in `../PiyoAI/PLAN.md` section 5.
 
 ## Layout
 
 ```
 index.json     catalog index the Piyo app reads (generated)
+curation.json  maintainer-owned: badge, category, revoked versions and external (pinned Git) sources per skill
 scripts/       build_index.py
 skills/        one folder per skill package
 LICENSE        MIT
@@ -37,7 +38,7 @@ skills/<skill-name>/
 **The format is defined in the app repo, not here:** `../PiyoAI/PLAN.md` §5, implemented by
 `../PiyoAI/core/piyo/skills/manifest.py`. Do not restate or fork it in this repo; link to it.
 
-Rules a catalog skill must meet (CI will enforce them later; follow them now):
+Rules a catalog skill must meet (CI enforces them through the app's `core/piyo/skills/validate.py`; run `build_index.py --check` before opening a pull request):
 
 - Folder name equals the `name` in frontmatter (lowercase letters, digits, single dashes).
 - Declares an OSI-approved `license`, and lists every tool it needs in `requires.tools`. Request the minimum.
@@ -50,7 +51,10 @@ Rules a catalog skill must meet (CI will enforce them later; follow them now):
 
 ## Working in this repo
 
-- `index.json` has no entry schema yet. Do not invent one ad hoc: define it in `PiyoAI/PLAN.md` first (Phase 5),
-  then add entries.
-- LF line endings (`.gitattributes`). MIT licence.
+- The index entry schema (currently 2) is defined in `PiyoAI/PLAN.md` section 5. Change it there first, then in
+  `build_index.py` and the app's `core/piyo/skills/catalog.py`. Badges, categories, revocations and external
+  sources live in `curation.json`, never in a skill's own files; only maintainers edit it. An external skill
+  needs `source` (GitHub URL, full commit hash, optional `subpath`) and the build fetches it, so `--check` needs
+  network and `git` when one is listed.
+- `.github/CODEOWNERS` makes @sunaram the reviewer of everything, and of `curation.json`, `index.json`, `scripts/` and `.github/` in particular; `CONTRIBUTING.md` is the guide for authors, so keep it in step with `validate.py` when rules change. LF line endings (`.gitattributes`). MIT licence.
 - Do not commit or push unless asked. Changes here are separate from the app repo's history.

@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "skills": [
     {
       "name": "daily-journal",
@@ -8,6 +8,9 @@
       "author": "Piyo AI",
       "license": "MIT",
       "path": "skills/daily-journal",
+      "category": "productivity",
+      "badge": "official",
+      "revoked": [],
       "sha256": "a3224251bcc5a8a7f27b29c364d21b68655761e40aecd60449a5a3ada1abc9a5",
       "files": 2,
       "size": 2011,
@@ -27,6 +30,9 @@
       "author": "Piyo AI",
       "license": "MIT",
       "path": "skills/unit-converter",
+      "category": "utilities",
+      "badge": "official",
+      "revoked": [],
       "sha256": "64fae3d8bde7806b024c665a9118dcabf8bbc9e7c77da3689192402125d60e53",
       "files": 3,
       "size": 4381,
